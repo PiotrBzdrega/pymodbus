@@ -94,6 +94,7 @@ class ModbusTlsServer(ModbusTcpServer):
         certfile=None,
         keyfile=None,
         password=None,
+        ca_certfile=None,
         ignore_missing_devices=False,
         broadcast_enable=False,
         trace_packet: Callable[[bool, bytes], bytes] | None = None,
@@ -115,6 +116,7 @@ class ModbusTlsServer(ModbusTcpServer):
         :param certfile: The cert file path for TLS (used if sslctx is None)
         :param keyfile: The key file path for TLS (used if sslctx is None)
         :param password: The password for for decrypting the private key file
+        :param ca_certfile: The CA cert file path for client cert validation
         :param ignore_missing_devices: True to not send errors on a  missing device
         :param broadcast_enable: True to treat dev_id 0 as broadcast address,
                         False to treat 0 as any other dev_id
@@ -130,7 +132,7 @@ class ModbusTlsServer(ModbusTcpServer):
             reconnect_delay_max=0.0,
             timeout_connect=0.0,
             sslctx=CommParams.generate_ssl(
-                True, certfile, keyfile, password, sslctx=sslctx
+                True, certfile, keyfile, password, ca_certfile, sslctx=sslctx
             ),
         )
         super().__init__(

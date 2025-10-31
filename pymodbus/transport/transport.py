@@ -105,6 +105,7 @@ class CommParams:
         certfile: str | None = None,
         keyfile: str | None = None,
         password: str | None = None,
+        ca_certfile: str | None = None,
         sslctx: ssl.SSLContext | None = None,
     ) -> ssl.SSLContext:
         """Generate sslctx from cert/key/password.
@@ -117,7 +118,11 @@ class CommParams:
             ssl.PROTOCOL_TLS_SERVER if is_server else ssl.PROTOCOL_TLS_CLIENT
         )
         new_sslctx.check_hostname = False
-        new_sslctx.verify_mode = ssl.CERT_NONE
+        if ca_certfile:
+            new_sslctx.verify_mode = ssl.CERT_REQUIRED
+            new_sslctx.load_verify_locations(ca_certfile)
+        else:
+            new_sslctx.verify_mode = ssl.CERT_NONE
         new_sslctx.minimum_version = ssl.TLSVersion.TLSv1_2
         new_sslctx.maximum_version = ssl.TLSVersion.TLSv1_3
         if certfile:

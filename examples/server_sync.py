@@ -124,6 +124,9 @@ def run_sync_server(args) -> None:
             keyfile=helper.get_certificate(
                 "key"
             ),  # The key file path for TLS (used if sslctx is None)
+            # ca_certfile=helper.get_certificate(
+                # "CAcrt"
+            # ),  # The key file path for TLS (used if sslctx is None)
             # password=None,  # The password for for decrypting the private key file
             # ignore_missing_devices=True,  # ignore request to a missing device
             # broadcast_enable=False,  # treat device_id 0 as broadcast address,
